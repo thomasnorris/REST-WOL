@@ -1,0 +1,24 @@
+{
+  "name": "rest-wol",
+  "version": "1.0.0",
+  "description": "REST endpoints for waking devices via WOL",
+  "main": "program.js",
+  "dependencies": {
+    "express": "^4.16.3",
+    "wake_on_lan": "^1.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thomasnorris/REST-WOL.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thomasnorris/REST-WOL/issues"
+  },
+  "homepage": "https://github.com/thomasnorris/REST-WOL#readme"
+}
