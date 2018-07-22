@@ -10,29 +10,32 @@
     _express.get('/wake/:name?', (req, res) => {
         var name = req.params.name;
         if (name === undefined) {
-            res.send(404, 'Device name not supplied.\n/wake/{name}');
+            res.send('Device name not supplied.\n/wake/{name}');
             return;
         }
 
         var device = _devices.filter((device) => {
             return device.nickName.toLowerCase() === name.toLowerCase();
-        });
+        })[0];
 
-        if (device.length === 0) {
-            res.send(404, 'Device with nickname ' + name + ' not found.');
+        if (device === undefined) {
+            res.send('Device with nickname ' + name + ' not found.');
             return;
         }
 
-        // WOL
+        _wol.wake(device.mac, (err) => {
+            if (err)
+                res.send('There was a WOL error: ' + err);
+            else
+                res.send('WOL packet sent to ' + device.fullName + ' at address ' + device.mac);
+        });
     });
 
     _express.listen(PORT);
 
-    function Device(nickName, fullName, mac, ip = '255.255.255.255', port = '9') {
+    function Device(nickName, fullName, mac) {
         this.nickName = nickName;
         this.fullName = fullName;
         this.mac = mac;
-        this.ip = ip;
-        this.port = port;
     }
 })();
