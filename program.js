@@ -8,8 +8,8 @@
     const DEVICES_ENDPOINT = '/devices';
 
     var _devices = [
-        new Device('Laptop', 'Toshiba Laptop', '7C:05:07:13:B7:BF'),
-        new Device('PC', 'Leviathan', '70:8B:CD:4E:33:6A')
+        new Device('Server', 'FTB Server', '7C:05:07:13:B7:BF'),
+        new Device('Desktop', 'Leviathan', '70:8B:CD:4E:33:6A')
     ];
 
     _express.get(WAKE_ENDPOINT, (req, res) => {
@@ -24,7 +24,7 @@
         })[0];
 
         if (device === undefined) {
-            res.send('Device with name \"' + name + '\" not found.');
+            res.send('Device with name \"' + name + '\" not found.\nSee \"' + DEVICES_ENDPOINT + '\" for available devices.');
             return;
         }
 
