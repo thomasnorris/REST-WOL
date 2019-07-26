@@ -8,7 +8,7 @@
     const DEVICES_ENDPOINT = '/devices';
 
     var _devices = [
-        new Device('Server', 'Old Toshiba Laptop', '7C:05:07:13:B7:BF', '192.168.0.20'),
+        new Device('Server', 'Laptop Server', '7C:05:07:13:B7:BF', '192.168.0.10'),
         new Device('Desktop', 'Leviathan', '70:8B:CD:4E:33:6A', '192.168.0.20')
     ];
 
