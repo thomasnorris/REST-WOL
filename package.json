@@ -20,5 +20,6 @@
   "bugs": {
     "url": "https://github.com/thomasnorris/REST-WOL/issues"
   },
-  "homepage": "https://github.com/thomasnorris/REST-WOL#readme"
+  "homepage": "https://github.com/thomasnorris/REST-WOL#readme",
+  "keywords": []
 }
