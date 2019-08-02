@@ -1,6 +1,7 @@
 (function() {
     const LISTEN_PORT = 1000;
     const SETTINGS = './settings.js';
+    const MC_SERVER_RESPONSE_PARAM = 'mc';
 
     var _wol = require('wake_on_lan');
     var _express = require('express')();
@@ -31,8 +32,15 @@
                 res.send('<div>ERROR: ' + err + '</div>');
             else {
                 var customResponse = req.params.customResponse;
-                if (customResponse)
-                    res.send('<div>' + customResponse + '</div>');
+                if (customResponse) {
+                    var message;
+                    if (customResponse.toLowerCase() === MC_SERVER_RESPONSE_PARAM.toLowerCase())
+                        message = '<div>Server is waking from sleep; please reconnect in a few minutes.</div>\n<div>You can now close this page.</div>';
+                    else
+                        message = '<div>' + customResponse + '</div>';
+
+                    res.send(message);
+                }
                 else
                     res.send('<div>WOL packet sent.</div>\n<ul>\n<li>IP: ' + device.ip + '</li>\n<li>MAC: ' + device.mac + '</li>\n</ul>');
             }
