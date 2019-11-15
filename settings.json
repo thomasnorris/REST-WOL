@@ -1,0 +1,16 @@
+{
+    "Devices": {
+        "Leviathan": {
+            "IP": "192.168.0.20",
+            "MAC": "70:8B:CD:4E:33:6A"
+        },
+        "Server": {
+            "IP": "192.168.0.10",
+            "MAC": "7C:05:07:13:B7:BF"
+        }
+    },
+    "Endpoints": {
+        "Wake": "/wake/:name?/:customResponse?",
+        "Devices": "/devices"
+    }
+}

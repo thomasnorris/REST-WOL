@@ -1,15 +1,15 @@
 (function() {
     const LISTEN_PORT = 1000;
-    const SETTINGS = './settings.js';
+    const SETTINGS = readJson('./settings.json');
     const MC_SERVER_RESPONSE_PARAM = 'mc';
 
     var _wol = require('wake_on_lan');
-    var _express = require('express')();
-    var _settings = require(SETTINGS);
-    var _devices = _settings.GetDevices();
-    var _endpoints = _settings.GetEndpoints();
+    var _express = require('express');
+    var _app = _express();
+    var _devices = SETTINGS.Devices;
+    var _endpoints = SETTINGS.Endpoints;
 
-    _express.get(_endpoints.WAKE, (req, res) => {
+    _app.get(_endpoints.Wake, (req, res) => {
         res.set('Content-Type', 'text/html');
         var name = req.params.name;
         if (name === undefined) {
@@ -47,10 +47,15 @@
         });
     });
 
-    _express.get(_endpoints.DEVICES, (req, res) => {
+    _app.get(_endpoints.Devices, (req, res) => {
         res.send(_devices);
     });
 
-    _express.set('json spaces', 4);
-    _express.listen(LISTEN_PORT);
+    _app.set('json spaces', 4);
+    _app.listen(LISTEN_PORT);
+
+    function readJson(filePath) {
+        var fs = require('fs');
+        return JSON.parse(fs.readFileSync(filePath, 'utf8'));
+    }
 })();
