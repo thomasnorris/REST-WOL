@@ -3,12 +3,13 @@
     var _wol = require('wake_on_lan');
     var _express = require('express');
     var _app = _express();
-    var _devices = SETTINGS.Devices;
-    var _endpoints = SETTINGS.Endpoints;
 
     const LISTEN_PORT = 1000;
     const SETTINGS = readJson(_path.resolve(__dirname, 'settings.json'));
     const MC_SERVER_RESPONSE_PARAM = 'mc';
+
+    var _devices = SETTINGS.Devices;
+    var _endpoints = SETTINGS.Endpoints;
 
     _app.get(_endpoints.Wake, (req, res) => {
         res.set('Content-Type', 'text/html');
