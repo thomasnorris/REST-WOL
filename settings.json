@@ -12,5 +12,6 @@
     "Endpoints": {
         "Wake": "/wake/:name?/:customResponse?",
         "Devices": "/devices"
-    }
+    },
+    "Port": 1000
 }

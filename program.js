@@ -4,7 +4,6 @@
     var _express = require('express');
     var _app = _express();
 
-    const LISTEN_PORT = 1000;
     const SETTINGS = readJson(_path.resolve(__dirname, 'settings.json'));
     const MC_SERVER_RESPONSE_PARAM = 'mc';
 
@@ -19,17 +18,19 @@
             return;
         }
 
-        var device = _devices.filter((device) => {
-            return device.name.toLowerCase() === name.toLowerCase();
-        })[0];
+        var device;
+        Object.keys(_devices).forEach((deviceName) => {
+            if (deviceName.toLowerCase() === name.toLowerCase())
+                device = _devices[deviceName];
+        });
 
-        if (device === undefined) {
-            var html = '<div>Device not found.</div>\n<div>See \"' + _endpoints.DEVICES + '\" for available devices.';
+        if (!device) {
+            var html = '<div>Device \"' + name + '\" not found.</div>\n<div>See \"' + _endpoints.Devices + '\" for available devices.';
             res.send(html);
             return;
         }
 
-        _wol.wake(device.mac, (err) => {
+        _wol.wake(device.MAC, (err) => {
             if (err)
                 res.send('<div>ERROR: ' + err + '</div>');
             else {
@@ -44,7 +45,7 @@
                     res.send(message);
                 }
                 else
-                    res.send('<div>WOL packet sent.</div>\n<ul>\n<li>IP: ' + device.ip + '</li>\n<li>MAC: ' + device.mac + '</li>\n</ul>');
+                    res.send('<div>WOL packet sent.</div>\n<ul>\n<li>IP: ' + device.IP + '</li>\n<li>MAC: ' + device.MAC + '</li>\n</ul>');
             }
         });
     });
@@ -54,7 +55,7 @@
     });
 
     _app.set('json spaces', 4);
-    _app.listen(LISTEN_PORT);
+    _app.listen(SETTINGS.Port);
 
     function readJson(filePath) {
         var fs = require('fs');
