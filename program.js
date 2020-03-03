@@ -1,7 +1,6 @@
 (function() {
     var _path = require('path');
     var _logger = require(_path.resolve(__dirname, 'Node-Logger', 'app.js'));
-    _logger.Init();
 
     var _wol = require('wake_on_lan');
     var _express = require('express');
@@ -55,8 +54,8 @@
                     res.send(message);
                 }
                 else {
-                    _logger.Info.Async('WOL packet sent', 'IP: ' + device.IP + ', MAC Address: ' + device.MAC);
-                    res.send('<div>WOL packet sent.</div>\n<ul>\n<li>IP: ' + device.IP + '</li>\n<li>MAC: ' + device.MAC + '</li>\n</ul>');
+                    _logger.Info.Async('Packet sent', 'IP: ' + device.IP + ', MAC Address: ' + device.MAC);
+                    res.send('<div>Packet sent.</div>\n<ul>\n<li>IP: ' + device.IP + '</li>\n<li>MAC: ' + device.MAC + '</li>\n</ul>');
                 }
 
             }
@@ -71,7 +70,7 @@
     _app.set('json spaces', 4);
     _app.listen(SETTINGS.Port);
 
-    _logger.Info.Async('Listening on port ' + SETTINGS.Port);
+    _logger.Init.Async('Server ready', 'localhost:' + SETTINGS.Port);
 
     function readJson(filePath) {
         var fs = require('fs');
