@@ -16,7 +16,7 @@
         res.set('Content-Type', 'text/html');
         var name = req.params.name;
         if (name === undefined) {
-            _logger.Warn.Async('Device name not supplied');
+            _logger.Warning.Async('Device name not supplied');
             res.send('<div>Device name not supplied.</div>\n<div>Use "/wake/{name}" and supply the device name.</div>');
             return;
         }
@@ -28,7 +28,7 @@
         });
 
         if (!device) {
-            _logger.Warn.Async('Device not found', 'Device name supplied: ' + name);
+            _logger.Warning.Async('Device not found', 'Device name supplied: ' + name);
             var html = '<div>Device \"' + name + '\" not found.</div>\n<div>See \"' + _endpoints.Devices + '\" for available devices.';
             res.send(html);
             return;
