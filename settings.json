@@ -10,7 +10,7 @@
         }
     },
     "Endpoints": {
-        "Wake": "/wake/:name?/:customResponse?",
+        "Wake": "/wake/:name?/:sleep?",
         "Devices": "/devices"
     },
     "Port": 1000

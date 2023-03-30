@@ -1,3 +1,5 @@
+const { arrayBuffer } = require('stream/consumers');
+
 (function() {
     var _path = require('path');
     var _logger = require(_path.resolve(__dirname, 'Node-Logger', 'app.js'));
@@ -7,7 +9,6 @@
     var _app = _express();
 
     const SETTINGS = readJson(_path.resolve(__dirname, 'settings.json'));
-    const MC_SERVER_RESPONSE_PARAM = 'mc';
 
     var _devices = SETTINGS.Devices;
     var _endpoints = SETTINGS.Endpoints;
@@ -34,30 +35,23 @@
             return;
         }
 
-        _wol.wake(device.MAC, (err) => {
+        var mac = device.MAC;
+
+        // send reverse of packet for sleep-on-lan
+        var sleep = req.params.sleep;
+        if (sleep) {
+           mac = mac.split(':').reverse().join(':');
+        }
+
+        _wol.wake(mac, (err) => {
             if (err) {
                 _logger.Error.Async('WOL error', err);
                 res.send('<div>ERROR: ' + err + '</div>');
             }
 
             else {
-                var customResponse = req.params.customResponse;
-                if (customResponse) {
-                    var message;
-                    if (customResponse.toLowerCase() === MC_SERVER_RESPONSE_PARAM.toLowerCase()) {
-                        _logger.Info.Async('Waking Minecraft server');
-                        message = '<div>Server is waking from sleep; please reconnect in a few minutes.</div>\n<div>You can now close this page.</div>';
-                    }
-                    else
-                        message = '<div>' + customResponse + '</div>';
-
-                    res.send(message);
-                }
-                else {
-                    _logger.Info.Async('Packet sent', 'IP: ' + device.IP + ', MAC Address: ' + device.MAC);
-                    res.send('<div>Packet sent.</div>\n<ul>\n<li>IP: ' + device.IP + '</li>\n<li>MAC: ' + device.MAC + '</li>\n</ul>');
-                }
-
+                _logger.Info.Async('Packet sent', 'IP: ' + device.IP + ', MAC Address: ' + mac);
+                res.send('<div>Packet sent.</div>\n<ul>\n<li>IP: ' + device.IP + '</li>\n<li>MAC: ' + mac + '</li>\n</ul>');
             }
         });
     });
